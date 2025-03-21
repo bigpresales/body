@@ -71,7 +71,8 @@
             const phone = document.getElementById('phone').value;
             const height = document.getElementById('height').value;
 
-            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${{name};${lastname};${company};${email};${phone};${height}}&rjDensity=5`;
+            const barcode_qr = `${name};${lastname};${company};${email};${phone};${height}`;
+            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcode_qr}&rjDensity=5`;
 
             // Open new window with URL scheme
             window.open(url, '_blank');
@@ -86,9 +87,16 @@
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
 
+            // Determine the next file number
+            let fileNumber = localStorage.getItem('fileNumber') || 1;
+            const filename = `patient_data${fileNumber}.xlsx`;
+
             // Write workbook to file and save automatically
             const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-            saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'patient_data.xlsx');
+            saveAs(new Blob([wbout], { type: 'application/octet-stream' }), filename);
+
+            // Increment and store the next file number
+            localStorage.setItem('fileNumber', ++fileNumber);
 
             // Refresh input page
             location.reload();
