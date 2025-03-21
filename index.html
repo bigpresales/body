@@ -71,7 +71,7 @@
             const phone = document.getElementById('phone').value;
             const height = document.getElementById('height').value;
 
-            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${name};${lastname};${company};${email};${phone};${height}`;
+            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${name};${lastname};${company};${email};${phone};${height}&rjDensity=5`;
 
             // Open new window with URL scheme
             window.open(url, '_blank');
