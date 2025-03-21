@@ -6,13 +6,11 @@
     <title>Brother Body Scan by Smooth Print</title>
     <style>
         body {
-	    font-family: Arial, sans-serif;
             background: url('Health.jpg') no-repeat center center fixed;
             background-size: cover;
             margin: 0;
             padding: 0;
             display: flex;
-	    color: #4D4D4D;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -27,12 +25,12 @@
         }
         .logo {
             width: 100%;
-            max-width: 600px;
+            max-width: 200px;
             margin-bottom: 20px;
         }
         input {
             display: block;
-            width: 95%;
+            width: 90%;
             margin: 10px 0;
             padding: 10px;
             border-radius: 5px;
@@ -42,12 +40,13 @@
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
-            background-color: #0D2EA0;
+            background-color: #1965E1;
             color: white;
             cursor: pointer;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -59,7 +58,7 @@
         <input type="text" id="company" placeholder="Company" required>
         <input type="email" id="email" placeholder="Email" required>
         <input type="tel" id="phone" placeholder="Phone" required>
-        <input type="text" id="korpersgroße" placeholder="Körpersgröße" required>
+        <input type="text" id="height" placeholder="Height (Cm)" required>
         <button onclick="saveAndPrint()">Save and Print</button>
     </div>
 
@@ -70,17 +69,17 @@
             const company = document.getElementById('company').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            const korpersgroße = document.getElementById('korpersgroße').value;
+            const height = document.getElementById('height').value;
 
-            const barcodeQR = `${name};${lastname};${company};${email};${phone};${korpersgroße}`;
-            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_korpersgroße=${korpersgroße}&barcode_qr=${barcodeQR}`;
+            const barcodeQR = `${name};${lastname};${company};${email};${phone};${height}`;
+            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcodeQR}`;
 
             // Open new window with URL scheme
             window.open(url, '_blank');
 
             // Create or update Excel list
             let data = JSON.parse(localStorage.getItem('patientData')) || [];
-            data.push({ name, lastname, company, email, phone, korpersgroße });
+            data.push({ name, lastname, company, email, phone, height });
             localStorage.setItem('patientData', JSON.stringify(data));
 
             // Convert data to worksheet
@@ -88,8 +87,9 @@
             const workbook = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(workbook, worksheet, "Patients");
 
-            // Write workbook to file
-            XLSX.writeFile(workbook, "patient_data.xlsx");
+            // Write workbook to file and save automatically
+            const wbout = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+            saveAs(new Blob([wbout], { type: 'application/octet-stream' }), 'patient_data.xlsx');
 
             // Refresh input page
             location.reload();
