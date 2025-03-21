@@ -1,75 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brother Body Scan by Smooth Print</title>
-    <style>
-        body {
-            background: url('Health.jpg') no-repeat center center fixed;
-            background-size: cover;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            width: 100%;
-            max-width: 600px;
-        }
-        .logo {
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 20px;
-        }
-        input {
-            display: block;
-            width: 90%;
-            margin: 10px 0;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #1965E1;
-            color: white;
-            cursor: pointer;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
-</head>
-<body>
-    <div class="container">
-        <img src="Bluebar.jpg" alt="Logo" class="logo">
-        <input type="text" id="name" placeholder="Name">
-        <input type="text" id="lastname" placeholder="Last Name">
-        <input type="text" id="company" placeholder="Company">
-        <input type="email" id="email" placeholder="Email">
-        <input type="tel" id="phone" placeholder="Phone">
-        <input type="text" id="korpersgroße" placeholder="Körpersgröße">
-        <button onclick="saveAndPrint()">Save and Print</button>
-    </div>
-
-    <script>
-        function saveAndPrint() {
-            const name = document.getElementById('name').value;
-            const lastname = document.getElementById('lastname').value;
-            const company = document.getElementById('company').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const korpersgroße = document.getElementById('korpersgroße').value;
-
-            const barcodeQR = `${name};${lastname};${company};${email};${phone};${korpersgroße}`;
-            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_korpersgroße=${korpersgroße}&barcode_qr=${barcodeQR}`;
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Brother Body Scan by Smooth Print</title>
+     <style>
+         body {
+             background: url('Health.jpg') no-repeat center center fixed;
+             background-size: cover;
+             margin: 0;
+             padding: 0;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             height: 100vh;
+         }
+         .container {
+             background: rgba(255, 255, 255, 0.8);
+             padding: 20px;
+             border-radius: 10px;
+             text-align: center;
+             width: 100%;
+             max-width: 600px;
+         }
+         .logo {
+             width: 100%;
+             max-width: 600px;
+             margin-bottom: 20px;
+         }
+         input {
+             display: block;
+             width: 90%;
+             margin: 10px 0;
+             padding: 10px;
+             border-radius: 5px;
+             border: 1px solid #ccc;
+         }
+         button {
+             padding: 10px 20px;
+             border: none;
+             border-radius: 5px;
+             background-color: #1965E1;
+             color: white;
+             cursor: pointer;
+         }
+     </style>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+ </head>
+ <body>
+     <div class="container">
+         <img src="Bluebar.jpg" alt="Logo" class="logo">
+         <h1>Brother Solutions</h1>
+         <h2>Body Scan by Smooth Print</h2>
+         <input type="text" id="name" placeholder="Name" required>
+         <input type="text" id="lastname" placeholder="Last Name" required>
+         <input type="text" id="company" placeholder="Company" required>
+         <input type="email" id="email" placeholder="Email" required>
+         <input type="tel" id="phone" placeholder="Phone" required>
+         <input type="text" id="height" placeholder="Height (cm)" required>
+         <button onclick="saveAndPrint()">Save and Print</button>
+     </div>
+ 
+     <script>
+         function saveAndPrint() {
+             const name = document.getElementById('name').value;
+             const lastname = document.getElementById('lastname').value;
+             const company = document.getElementById('company').value;
+             const email = document.getElementById('email').value;
+             const phone = document.getElementById('phone').value;
+             const height = document.getElementById('height').value;
+ 
+             const barcode_qr = `${name};${lastname};${company};${email};${phone};${height}`;
+             const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcode_qr}&rjDensity=5`;
             
             // Open new window with URL scheme
             window.open(url, '_blank');
