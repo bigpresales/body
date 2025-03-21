@@ -95,6 +95,9 @@
             const barcode_qr = `${name};${lastname};${company};${email};${phone};${height}`;
             const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcode_qr}&rjDensity=5`;
             
+            // Debugging: Log the URL to the console
+            console.log(`Generated URL: ${url}`);
+
             // Set the href attribute of the print link and display it
             const printLink = document.getElementById('printLink');
             printLink.href = url;
