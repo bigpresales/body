@@ -47,19 +47,19 @@
             cursor: pointer;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="container">
         <img src="Bluebar.jpg" alt="Logo" class="logo">
         <h1>Brother Solutions</h1>
         <h2>Body Scan by Smooth Print</h2>
-        <input type="text" id="name" placeholder="Name">
-        <input type="text" id="lastname" placeholder="Last Name">
-        <input type="text" id="company" placeholder="Company">
-        <input type="email" id="email" placeholder="Email">
-        <input type="tel" id="phone" placeholder="Phone">
-        <input type="text" id="height" placeholder="Height (cm)">
+        <input type="text" id="name" placeholder="Name" required>
+        <input type="text" id="lastname" placeholder="Last Name" required>
+        <input type="text" id="company" placeholder="Company" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="tel" id="phone" placeholder="Phone" required>
+        <input type="text" id="korpersgroße" placeholder="Körpersgröße" required>
         <button onclick="saveAndPrint()">Save and Print</button>
     </div>
 
@@ -70,17 +70,17 @@
             const company = document.getElementById('company').value;
             const email = document.getElementById('email').value;
             const phone = document.getElementById('phone').value;
-            const height = document.getElementById('height').value;
+            const korpersgroße = document.getElementById('korpersgroße').value;
 
-            const barcodeQR = `${name};${lastname};${company};${email};${phone};${height}`;
-            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcodeQR}`;
+            const barcodeQR = `${name};${lastname};${company};${email};${phone};${korpersgroße}`;
+            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_korpersgroße=${korpersgroße}&barcode_qr=${barcodeQR}`;
 
             // Open new window with URL scheme
             window.open(url, '_blank');
 
             // Create or update Excel list
             let data = JSON.parse(localStorage.getItem('patientData')) || [];
-            data.push({ name, lastname, company, email, phone, height });
+            data.push({ name, lastname, company, email, phone, korpersgroße });
             localStorage.setItem('patientData', JSON.stringify(data));
 
             // Convert data to worksheet
