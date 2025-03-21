@@ -24,7 +24,7 @@
             max-width: 600px;
         }
         .logo {
-                       max-width: 600px;
+            max-width: 600px;
             margin-bottom: 20px;
         }
         input {
@@ -42,6 +42,11 @@
             background-color: #1965E1;
             color: white;
             cursor: pointer;
+            margin: 5px;
+        }
+        #printLink {
+            display: none;
+            margin-top: 10px;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.0/xlsx.full.min.js"></script>
@@ -58,10 +63,27 @@
         <input type="email" id="email" placeholder="Email" required>
         <input type="tel" id="phone" placeholder="Phone" required>
         <input type="text" id="height" placeholder="Height (cm)" required>
+        <button onclick="previewLink()">Preview Link</button>
         <button onclick="saveAndPrint()">Save and Print</button>
+        <a id="printLink" href="#" target="_blank">Open Smooth Print</a>
     </div>
 
     <script>
+        function previewLink() {
+            const name = document.getElementById('name').value;
+            const lastname = document.getElementById('lastname').value;
+            const company = document.getElementById('company').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const height = document.getElementById('height').value;
+
+            const barcode_qr = `${name};${lastname};${company};${email};${phone};${height}`;
+            const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcode_qr}&rjDensity=5`;
+
+            // Display the URL for preview
+            alert(`Preview Link: ${url}`);
+        }
+
         function saveAndPrint() {
             const name = document.getElementById('name').value;
             const lastname = document.getElementById('lastname').value;
@@ -73,8 +95,10 @@
             const barcode_qr = `${name};${lastname};${company};${email};${phone};${height}`;
             const url = `brotherwebprint://print?filename=patient.lbx&size=279.bin&text_name=${name}&text_lastname=${lastname}&text_company=${company}&text_email=${email}&text_phone=${phone}&text_height=${height}&barcode_qr=${barcode_qr}&rjDensity=5`;
             
-            // Open new window with URL scheme
-            window.location.href = url;
+            // Set the href attribute of the print link and display it
+            const printLink = document.getElementById('printLink');
+            printLink.href = url;
+            printLink.style.display = 'block';
 
             // Create or update Excel list
             let data = JSON.parse(localStorage.getItem('patientData')) || [];
