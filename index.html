@@ -64,7 +64,7 @@
         <input type="tel" id="phone" placeholder="Phone" required>
         <input type="text" id="height" placeholder="Height (cm)" required>
         <button onclick="previewLink()">Preview Link</button>
-        <button onclick="generatePrintLink()">Generate Print Link</button>
+        <button onclick="sendToPrint()">Send to Print</button>
         <a id="printLink" href="#" target="_blank">Open Smooth Print</a>
     </div>
 
@@ -84,7 +84,7 @@
             alert(`Preview Link: ${url}`);
         }
 
-        function generatePrintLink() {
+        function sendToPrint() {
             const name = document.getElementById('name').value;
             const lastname = document.getElementById('lastname').value;
             const company = document.getElementById('company').value;
