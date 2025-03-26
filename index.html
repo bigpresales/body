@@ -124,6 +124,9 @@
             // Increment and store the next file number
             localStorage.setItem('fileNumber', ++fileNumber);
 
+            // Trigger the Smooth Print app
+            window.location.href = url;
+
             // Refresh input page
             location.reload();
         }
